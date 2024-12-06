@@ -26,6 +26,7 @@ Start by cloning the repository to your local machine:
 ```bash
 git clone https://github.com/anakin004/Linux-Labyrinth.git
 cd Linux-Labyrinth
+```
 
 ![image](https://github.com/user-attachments/assets/ece0ed6b-60e5-44db-8d09-95ece67eae24)
 
