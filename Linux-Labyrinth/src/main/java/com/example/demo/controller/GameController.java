@@ -79,7 +79,6 @@ public class GameController {
             throw new Exception("Error executing command, exit code: " + exitCode);
         }
 
-        // Return the output of the command
         return output.toString();
     }
 
@@ -125,7 +124,7 @@ public class GameController {
     public ResponseEntity<String> executeCommand(@RequestBody CommandRequest commandReq) {
         try {
 
-            // Get the command from the request body
+            // getting the command from the request body
             String command = commandReq.getCommand();
             String ret = checkCommand(command);
 
