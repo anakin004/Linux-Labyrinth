@@ -1,5 +1,5 @@
 # Linux Labyrinth
-- Currnently In Progress -
+- In Progress
 ## Project Overview
 **Linux Labyrinth** is a Spring Boot-based web application designed to explore and demonstrate the integration of a PostgreSQL database with a RESTful API. This project aims to show how to leverage Spring Boot to rapidly build a backend application that can interact with a PostgreSQL database. The application uses Java 17, Spring Boot, and PostgreSQL for data management, along with a Maven-based build system.
 
