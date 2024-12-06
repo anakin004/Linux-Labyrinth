@@ -13,11 +13,13 @@ The primary goal of this project is to create a simple yet scalable web applicat
 - **UI**: An interractive web interface that makes the learning process engaging.
 
 ## Technologies Used
-- **Java 17, HTML & CSS**: programming languages used for this project.
+- **Java 17, HTML & CSS, JavaScript**: Programming languages used for this project.
+- **Tailwind CSS, React, PostCSS**: Frontend technologies used for styling, building dynamic user interfaces, and optimizing CSS.
 - **Spring Boot**: A Java framework used to create the backend API and manage the application’s configuration, security, and database interactions.
 - **PostgreSQL**: A powerful relational database management system used to store application data.
 - **Maven**: The build tool used for managing dependencies, compiling, testing, and running the application.
 - **Docker**: Used optionally for setting up PostgreSQL in a containerized environment, making the setup process easier.
+
 
 ## Setup Instructions
 
