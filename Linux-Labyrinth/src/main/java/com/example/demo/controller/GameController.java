@@ -63,10 +63,9 @@ public class GameController {
         ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
         processBuilder.directory(dirFile);  // Set the working directory for the command
 
-        // Start the process
         Process process = processBuilder.start();
 
-        // Read the output from the command
+        // reading the output from the command
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         StringBuilder output = new StringBuilder();
         String line;
