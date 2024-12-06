@@ -6,7 +6,8 @@ cd react
 npm install    # Install dependencies if not already installed
 npm run build  # Build the React app
 
-# Step 2: Copy the React build output to the Spring Boot static folder
+# Step 2: Copying the React build output to the Spring Boot static folder
+# -- Also copying index.html into template folder for Spring Boot
 echo "Copying React build to Spring Boot static folder..."
 cp -r build/* ../Linux-Labyrinth/src/main/resources/static/
 cp -r ../Linux-Labyrinth/src/main/resources/static/index.html ../Linux-Labyrinth/src/main/resources/templates/
