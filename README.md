@@ -29,7 +29,7 @@ cd Linux-Labyrinth
 ```
 
 
---- Demos
+## Demos 
 
 ![image](https://github.com/user-attachments/assets/6b10b8c8-38ed-407e-8008-4801dc57a209)
 
