@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+    <link rel="stylesheet" href="/css/styles.css"> 
+<body>
+    <form th:action="@{/create-user}" method="post">
+        <h2>Create User</h2>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required="true"/>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required="true"/>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required="true"/>
+
+        <button type="submit">Create User</button>
+
+        <!-- link for login page -->
+        <p>Already have an account? <a th:href="@{/login}">Login</a></p>
+    </form>
+</body>
+</html>

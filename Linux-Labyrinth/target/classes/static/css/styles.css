@@ -1,0 +1,90 @@
+/* General styles */
+body {
+    font-family: "Courier New", monospace; /* terminal-style font */
+    background-color: #000;
+    color: #00ff00; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* centered container */
+form {
+    width: 350px;
+    padding: 20px;
+    background: #111; /* slightly lighter black for contrast */
+    border: 2px solid #00ff00; /* green border */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); /* green glow effect */
+}
+
+
+h2 {
+    margin-bottom: 20px;
+    color: #00ff00; /* Hacker green */
+}
+
+/* Form labels */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #00ff00; 
+}
+
+/* Input fields */
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #222; 
+    color: #00ff00; 
+    border: 1px solid #00ff00;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box; 
+}
+
+/* Input focus effect */
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #00cc00; 
+    box-shadow: 0 0 5px #00cc00; /* glow effect */
+}
+
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00ff00; 
+    color: #000; 
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #00cc00; /* slightly darker green on hover */
+}
+
+/* Links */
+a {
+    color: #00ff00;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* p for "Create User" link */
+p {
+    margin-top: 15px;
+    color: #00ff00;
+    font-size: 14px; 
+}
