@@ -18,6 +18,11 @@ import com.example.demo.service.AuthenticationService;
 import com.example.demo.model.PlayerEntity;
 import com.example.demo.model.PlayerRepository;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 @Configuration
 @EnableWebSecurity
@@ -41,9 +46,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            // Enable CORS and disable CSRF
+            // I can enable CRSF once I handle key configuration
+            // for now as a shorthand and debugging I disabled crsf
+            .cors().and()
+            .csrf().disable()
+            
+            // Set up authorization rules
             .authorizeRequests()
-                .antMatchers("/login", "/create-user", "/css/**", "/js/**").permitAll() // allow login page and static resources
-                .anyRequest().authenticated() // require authentication for all other pages
+                .antMatchers("/login", "/create-user", "/css/**", "/js/**").permitAll()
+                .antMatchers("/api/execute-command").permitAll()
+                .anyRequest().authenticated()
             .and()
             .formLogin()
                 .loginPage("/login") // specifying custom login page
@@ -58,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             PlayerEntity player = playerRepository.findByUsername(username);
 
             if (player != null) {
-                // Spring Security automatically compares the entered password with the stored password
+                // spring security automatically compares the entered password with the stored password
                 return User.withUsername(username)
                         .password(player.getPassword())  // stored hashed password
                         .roles("USER") // asign roles as necessary

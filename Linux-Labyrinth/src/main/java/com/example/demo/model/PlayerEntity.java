@@ -56,6 +56,10 @@ public class PlayerEntity {
     public String getPassword(){
         return password;
     }
+    
+    public String getName(){
+        return username;
+    }
 
     public String getAnswer1(){
         return answer_1;

@@ -20,12 +20,13 @@ const Terminal = () => {
           body: JSON.stringify({ command: currentCommand })
         });
         
+
         const result = await response.json();
-        
         // adding response to history
         setHistory(prev => [...prev, { text: result.message, isCommand: false }]);
       } catch (error) {
         setHistory(prev => [...prev, { text: 'Error executing command...', isCommand: false }]);
+        console.log("Error: ", error);
       }
       
       setCurrentCommand('');
@@ -46,7 +47,7 @@ const Terminal = () => {
       >
         <div 
           ref={terminalRef}
-          className="h-96 overflow-y-auto"
+          className="h-96 overflow-y-auto text-left"
         >
           {history.map((entry, index) => (
             <div key={index} className="mb-2">
