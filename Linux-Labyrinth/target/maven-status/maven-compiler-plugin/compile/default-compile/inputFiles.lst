@@ -3,6 +3,7 @@
 /mnt/c/Users/Ryan/code/linuxlab/Linux-Labyrinth/src/main/java/com/example/demo/model/PlayerRepository.java
 /mnt/c/Users/Ryan/code/linuxlab/Linux-Labyrinth/src/main/java/com/example/demo/service/CreateUserService.java
 /mnt/c/Users/Ryan/code/linuxlab/Linux-Labyrinth/src/main/java/com/example/demo/controller/HelloController.java
+/mnt/c/Users/Ryan/code/linuxlab/Linux-Labyrinth/src/main/java/com/example/demo/controller/GameController.java
 /mnt/c/Users/Ryan/code/linuxlab/Linux-Labyrinth/src/main/java/com/example/demo/controller/LoginController.java
 /mnt/c/Users/Ryan/code/linuxlab/Linux-Labyrinth/src/main/java/com/example/demo/service/AuthenticationService.java
 /mnt/c/Users/Ryan/code/linuxlab/Linux-Labyrinth/src/main/java/com/example/demo/model/PlayerEntity.java

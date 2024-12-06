@@ -18,8 +18,8 @@ INSERT INTO table_name (col1, col2, ..., coln)
 VALUES (val1, val2, ..., valn.);
 
 INSERT INTO public.player_answers (username, password, answer_1, answer_2, answer_3, answer_4,
-answer_5, answer_6, answer_7) 
-VALUES ('anakin', 'default', 'episode', '3', 'revenge', 'of', 'the', 'sith', 'jedi');
+answer_5, answer_6, answer_7, currentPath) 
+VALUES ('anakin', 'default', 'episode', '3', 'revenge', 'of', 'the', 'sith', 'jedi', '');
 
 /*
 
@@ -38,5 +38,6 @@ CREATE TABLE public.player_answers (
     answer_4 VARCHAR(255),
     answer_5 VARCHAR(255),
     answer_6 VARCHAR(255),
-    answer_7 VARCHAR(255)
+    answer_7 VARCHAR(255),
+    currentPath VARCHAR(255),
 );

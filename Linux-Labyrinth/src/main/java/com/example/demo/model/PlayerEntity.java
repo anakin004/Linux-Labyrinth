@@ -23,6 +23,8 @@ public class PlayerEntity {
 
     private LocalDateTime date; 
 
+    private String currentpath;
+
     private String answer_1;
     private String answer_2; 
     private String answer_3;
@@ -40,6 +42,7 @@ public class PlayerEntity {
         this.username = username;
         this.password = password;
         this.date = LocalDateTime.now(); 
+        this.currentpath = "";
         this.answer_1 = "";
         this.answer_2 = "";
         this.answer_3 = "";

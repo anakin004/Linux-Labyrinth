@@ -14,7 +14,7 @@ const Terminal = () => {
       
       // for calling backend API
       try {
-        const response = await fetch('/api/game/execute-command', {
+        const response = await fetch('/api/execute-command', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ command: currentCommand })
