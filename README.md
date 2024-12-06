@@ -28,6 +28,9 @@ git clone https://github.com/anakin004/Linux-Labyrinth.git
 cd Linux-Labyrinth
 ```
 
+
+--- Demos
+
 ![image](https://github.com/user-attachments/assets/6b10b8c8-38ed-407e-8008-4801dc57a209)
 
 
