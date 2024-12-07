@@ -54,7 +54,7 @@ const Terminal = () => {
         {/* terminal container */}
         <div
           className="bg-black text-green-500 p-4 rounded-lg shadow-lg font-mono"
-          style={{ minHeight: '800px', width: '100%' }} 
+          style={{ height: '800px', width: '100%'}} 
         >
           {/* terminal body */}
           <div ref={terminalRef} className="h-full flex flex-col overflow-y-auto text-left">

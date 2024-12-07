@@ -47,9 +47,15 @@ public class GameController {
     }
 
 
-    public String executeShellCommand(String command, PlayerEntity p) throws Exception {
+    public String executeShellCommand(String command, PlayerEntity p, String filePath) throws Exception {
         
-        
+        // case when we are doing cat, we need to check if its a valid file path
+        if( filePath != null ){
+            if( !isSubFile(p.getPath(),filePath) ){
+                throw new Exception("Invalid File Path");
+            }
+        }
+
         String dir = p.getPath();
         // we know this dirFile is valid since the path is checking before sql input
         File dirFile = new File(dir);
@@ -58,6 +64,10 @@ public class GameController {
         // create  ProcessBuilder to execute the shell command
         ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
         processBuilder.directory(dirFile);  // setting the working directory for the command
+
+        System.out.println(dir);
+        System.out.println(filePath);
+        System.out.println(command);
 
         Process process = processBuilder.start();
 
@@ -80,7 +90,7 @@ public class GameController {
         if (exitCode != 0) {
             throw new Exception("Error executing command, exit code: " + exitCode);
         }
-
+        System.out.println(output);
         return output.toString();
     }
 
@@ -89,7 +99,6 @@ public class GameController {
         Path parentPath = Paths.get("").toAbsolutePath().getParent().resolve("labyrinth").normalize();
         Path childPath = Paths.get(child).toAbsolutePath().normalize();
 
-
         // check if both paths exist and are directories
         if (!Files.isDirectory(parentPath) || !Files.isDirectory(childPath)) {
             return false; 
@@ -97,6 +106,18 @@ public class GameController {
       
         // check if childPath starts with parent path
         return (childPath.startsWith(parentPath) || parentPath.equals(childPath));
+    }
+
+    public static boolean isSubFile(String playerPath, String child) {
+        
+        Path childPath = Paths.get(child).toAbsolutePath().normalize();
+        Path parentPath = Paths.get(playerPath);
+
+        // check if both paths exist and are directories
+        return (Files.isDirectory(parentPath)    && 
+                childPath.startsWith(parentPath) &&
+                Files.isRegularFile(childPath)          
+                );
     }
 
     // changeDir handles error checking
@@ -119,7 +140,6 @@ public class GameController {
         }
     }   
 
-
     
 
 
@@ -131,7 +151,13 @@ public class GameController {
         PlayerEntity player = playerRepository.findByUsername(username);
         String[] params = command.split(" ");
 
+        Path cwd = Paths.get("").toAbsolutePath().getParent().resolve("labyrinth").normalize();
+        String playerPath = player.getPath();
+
+
         switch(params[0]){
+
+
 
             case "help":
                 return String.format("Welcome! %s\n" +
@@ -144,31 +170,40 @@ public class GameController {
                      "-------------------------------------------------------\n" +
                      "Enjoy!", player.getName());
 
+
+            // change directory command
             case "cd":
 
-                Path cwd = Paths.get("").toAbsolutePath().getParent();
                 // case when its cd " " - being cd nothing, we go back to the labyrinth dir
                 if( params.length == 1 ){
-                    changeDir(player, cwd.resolve("labyrinth").normalize().toString());
+                    changeDir(player, cwd.toString());
                 }   
-
-                // do nothing
-                else if( params[1].equals(".") || params[1].equals("./") || params[1].equals("./.")){
-                }
 
                 // go to parent dir, bound checking happens in changedir
                 else if( params[1].equals("..") ){
-                    changeDir(player, Paths.get(player.getPath()).getParent().toString());
+                    changeDir(player, Paths.get(playerPath).getParent().toString());
                 }
 
                 else {
-                    changeDir(player, cwd.toString() + "/labyrinth/" + params[1] );
+                    changeDir(player, cwd.toString() + "/" + params[1] );
                 }
 
                 return "";
             
-            case "ls":
-                return executeShellCommand("ls", player);
+
+            // list dir
+            case "ls":     // passing null since we arennt passing an additional file for this implimentation
+                return executeShellCommand("ls", player, null);
+
+
+
+            case "cat":
+                StringBuilder sb = new StringBuilder("");
+                for( int i = 1; i < params.length; i++){
+                    sb.append(executeShellCommand("cat "+ params[i], player, playerPath + "/" + params[i]));
+                }
+                return sb.toString();
+            
 
             default:
                 throw new Exception("Invalid Command");

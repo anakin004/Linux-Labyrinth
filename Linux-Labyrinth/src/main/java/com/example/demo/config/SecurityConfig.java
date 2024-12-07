@@ -54,9 +54,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             
             // setting up authorization rules - permit api calls to execute command to all for now
             .authorizeRequests()
+                // public access
                 .antMatchers("/login", "/create-user", "/css/**", "/js/**").permitAll()
-                .antMatchers("/api/execute-command").permitAll()
+
+                // require auth for api execute command
+                .antMatchers("/api/execute-command").authenticated()
+
+                // all other paths need auth
                 .anyRequest().authenticated()
+
             .and()
             .formLogin()
                 .loginPage("/login") // specifying custom login page
