@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.time.LocalDateTime;
+import java.nio.file.Paths;
 
 
 @Entity
@@ -42,7 +43,7 @@ public class PlayerEntity {
         this.username = username;
         this.password = password;
         this.date = LocalDateTime.now(); 
-        this.currentpath = "";
+        this.currentpath = Paths.get("").toAbsolutePath().getParent().resolve("labyrinth").normalize().toString();
         this.answer_1 = "";
         this.answer_2 = "";
         this.answer_3 = "";
@@ -65,5 +66,7 @@ public class PlayerEntity {
         return answer_1;
     }
 
-
+    public String getPath(){
+        return currentpath;
+    }
 }

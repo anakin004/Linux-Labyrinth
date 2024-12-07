@@ -22,12 +22,7 @@ public class CreateUserService {
     }
 
     private boolean checkUserExist(String username){
-
-        if( playerRepository == null){
-                System.out.println("playerepo null");
-                return false;
-        }
-
+        
         boolean found = false;
         PlayerEntity player = playerRepository.findByUsername(username);
 
@@ -47,7 +42,6 @@ public class CreateUserService {
             PlayerEntity player = new PlayerEntity(username, passwordEncoder.encode(password));
             playerRepository.save(player);
             success = true;
-            System.out.println("New player");
         }       
         
         return success;

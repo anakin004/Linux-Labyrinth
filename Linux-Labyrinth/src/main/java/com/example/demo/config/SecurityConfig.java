@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .cors().and()
             .csrf().disable()
             
-            // Set up authorization rules
+            // setting up authorization rules - permit api calls to execute command to all for now
             .authorizeRequests()
                 .antMatchers("/login", "/create-user", "/css/**", "/js/**").permitAll()
                 .antMatchers("/api/execute-command").permitAll()

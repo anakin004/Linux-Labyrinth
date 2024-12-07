@@ -1,0 +1,12 @@
+___________________________________________________________
+
+
+--------
+Dead End ..
+--------
+
+How will you get back ..
+Well, I think that we want to run "cd (something)" might be useful ..  
+We want to change directory too .. I got no ideas, maybe something to do with dots ? .. 
+
+___________________________________________________________

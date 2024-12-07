@@ -39,5 +39,5 @@ CREATE TABLE public.player_answers (
     answer_5 VARCHAR(255),
     answer_6 VARCHAR(255),
     answer_7 VARCHAR(255),
-    currentPath VARCHAR(255),
+    currentpath VARCHAR(255),
 );
