@@ -36,7 +36,8 @@ cd Linux-Labyrinth
 ![image](https://github.com/user-attachments/assets/6b10b8c8-38ed-407e-8008-4801dc57a209)
 
 
-![image](https://github.com/user-attachments/assets/efffd7d9-22a0-4e99-9c71-57ffc623fa82)
+![image](https://github.com/user-attachments/assets/2b735678-131f-4e10-8bb7-3eb62f9b6c44)
+
 
 
 
