@@ -133,6 +133,17 @@ public class GameController {
 
         switch(params[0]){
 
+            case "help":
+                return String.format("Welcome! %s\n" +
+                     "This marks the start of your journey!\n" +
+                     "You can quit at any time and your progress will be saved\n" +
+                     "To begin your journey type ls in the command prompt\n" +
+                     "-------------------------------------------------------\n" +
+                     "You will need to find a command that looks like command clue(x).txt\n" +
+                     "Hint: command is all lowercase, and is the name of a domestic feline related to lions\n" +
+                     "-------------------------------------------------------\n" +
+                     "Enjoy!", player.getName());
+
             case "cd":
 
                 Path cwd = Paths.get("").toAbsolutePath().getParent();
@@ -168,10 +179,10 @@ public class GameController {
     }
 
     public String jsonify(String ret) {
-    // Replace newline characters with the string \\n
-    String escapedRet = ret.replace("\n", "\\n");
-    return String.format("{\"message\": \"%s\"}", escapedRet);
-}
+        // Replace newline characters with the string \\n
+        String escapedRet = ret.replace("\n", "\\n");
+        return String.format("{\"message\": \"%s\"}", escapedRet);
+    }
     
     @PostMapping("/api/execute-command")
     public ResponseEntity<String> executeCommand(@RequestBody CommandRequest commandReq) {

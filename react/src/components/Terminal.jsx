@@ -22,6 +22,10 @@ const Terminal = () => {
         
 
         const result = await response.json();
+
+        // converting back to newline characters for rendering
+        result.message = result.message.replace(/\\n/g, '\n');
+
         // adding response to history
         setHistory(prev => [...prev, { text: result.message, isCommand: false }]);
       } catch (error) {
@@ -40,46 +44,54 @@ const Terminal = () => {
   }, [history]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4">
-      <div 
-        className="bg-black text-green-500 p-4 rounded-lg shadow-lg font-mono"
-        style={{ minHeight: '400px' }}
-      >
-        <div 
-          ref={terminalRef}
-          className="h-96 overflow-y-auto text-left"
+    <div className="w-full h-screen flex justify-center items-center p-4">
+      <div className="w-full max-w-4xl">
+        {/* Project description section */}
+        <div className="mb-4 text-gray-400 font-mono text-center">
+          <p>Welcome to Linux Labyrinth! Explore the commands, have fun, and learn as you go. - Ryan Mangeno </p>
+        </div>
+  
+        {/* terminal container */}
+        <div
+          className="bg-black text-green-500 p-4 rounded-lg shadow-lg font-mono"
+          style={{ minHeight: '800px', width: '100%' }} 
         >
-          {history.map((entry, index) => (
-            <div key={index} className="mb-2">
-              {entry.isCommand ? (
-                <div>
-                  <span className="text-blue-500">player@linuxlabyrinth</span>
-                  <span className="text-white">:</span>
-                  <span className="text-purple-500">~$</span>
-                  <span className="ml-2">{entry.text}</span>
-                </div>
-              ) : (
-                <div>{entry.text}</div>
-              )}
+          {/* terminal body */}
+          <div ref={terminalRef} className="h-full flex flex-col overflow-y-auto text-left">
+            {history.map((entry, index) => (
+              <div key={index} className="mb-2">
+                {entry.isCommand ? (
+                  <div>
+                    <span className="text-blue-500">player@linuxlabyrinth</span>
+                    <span className="text-white">:</span>
+                    <span className="text-purple-500">~$</span>
+                    <span className="ml-2">{entry.text}</span>
+                  </div>
+                ) : (
+                  <pre style={{ whiteSpace: 'pre-wrap' }}>{entry.text}</pre>
+                )}
+              </div>
+            ))}
+  
+            <div className="flex">
+              <span className="text-blue-500">player@linuxlabyrinth</span>
+              <span className="text-white">:</span>
+              <span className="text-purple-500">~$</span>
+              <input
+                type="text"
+                value={currentCommand}
+                onChange={(e) => setCurrentCommand(e.target.value)}
+                onKeyDown={handleCommand}
+                className="flex-1 ml-2 bg-transparent outline-none text-green-500"
+                autoFocus
+              />
             </div>
-          ))}
-          <div className="flex">
-            <span className="text-blue-500">player@linuxlabyrinth</span>
-            <span className="text-white">:</span>
-            <span className="text-purple-500">~$</span>
-            <input
-              type="text"
-              value={currentCommand}
-              onChange={(e) => setCurrentCommand(e.target.value)}
-              onKeyDown={handleCommand}
-              className="flex-1 ml-2 bg-transparent outline-none text-green-500"
-              autoFocus
-            />
           </div>
         </div>
       </div>
     </div>
   );
-};
+  
+}
 
 export default Terminal;
