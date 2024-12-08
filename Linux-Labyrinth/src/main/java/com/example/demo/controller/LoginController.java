@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import com.example.demo.service.CreateUserService;
 import com.example.demo.model.PlayerEntity;
 
+/* http endpoint calls to serve html content */
+
 @Controller
 public class LoginController{
 
@@ -24,17 +26,6 @@ public class LoginController{
     public String loginPage() {
         return "login";
     }
-    /* 
-       
-       this method is actually going to be taken care of by security config
-       however i dont want to remove this code yet, might be useful for some manual login verification stuff
-
-    @PostMapping("/login")
-    public String loginSubmit(@RequestParam String username, @RequestParam String password) {
-        // handle login logic 
-        return "redirect:/home"; // Redirect to home page after successful login
-    }
-    */
 
     @GetMapping("/create-user")
     public String createUserPage() {

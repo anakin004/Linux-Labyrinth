@@ -19,7 +19,9 @@ const Terminal = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ command: currentCommand })
         });
-        
+
+        // after we send post we can just set current command to nothing 
+        setCurrentCommand('');
 
         const result = await response.json();
 
@@ -32,8 +34,6 @@ const Terminal = () => {
         setHistory(prev => [...prev, { text: 'Error executing command...', isCommand: false }]);
         console.log("Error: ", error);
       }
-      
-      setCurrentCommand('');
     }
   };
 
@@ -57,6 +57,7 @@ const Terminal = () => {
           style={{ height: '800px', width: '100%'}} 
         >
           {/* terminal body */}
+          {/* ref is needed since we want to automatically scroll when entering new*/}
           <div ref={terminalRef} className="h-full flex flex-col overflow-y-auto text-left">
             {history.map((entry, index) => (
               <div key={index} className="mb-2">

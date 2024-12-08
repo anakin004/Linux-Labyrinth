@@ -1,5 +1,10 @@
 package com.example.demo;
 
+/*
+-!~= Ryan Mangeno - ry189631@ucf.edu
+*/
+
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,10 +16,3 @@ public class DemoApplication {
     }
 }
 
-
-/*
-
-mvn clean install
-mvn spring-boot:run
-
-*/
