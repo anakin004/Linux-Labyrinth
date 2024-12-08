@@ -37,13 +37,12 @@ public class GameController {
 
 
 
-
-
-
-
-
      // a request body class to handle the command
-    public static class CommandRequest {
+     // using @RequestBody
+     // the user input will be put into a CommandRequest object 
+     // we make it private static since it is associated with the class not with the class instance, and is only used in this class
+     // so we can make CommandRequest objects without instances of the GameController class
+    private static class CommandRequest {
         private String command;
 
         public String getCommand() {
@@ -57,10 +56,18 @@ public class GameController {
 
 
 
+    /*
 
+    Executed shell command via processBuilder, reads into and InputStreamReader and BufferedReader to return result to user
+    Alot of the checking for valid commands happens before
+    this simply runs it
+    
+    Except ... 
+    we do check the filePath entity if it is specifid
+    it is mean for commands like cat so far, if the file is within the current directory
+    cat does not support backwards travel, so we only check if its a subfile
 
-
-
+    */
     public String executeShellCommand(String command, PlayerEntity p, String filePath) throws Exception {
         
         // case when we are doing cat, we need to check if its a valid file path
@@ -107,7 +114,9 @@ public class GameController {
 
 
 
-
+    // checks if any parameters specificed in the input command have backwards travel
+    // will need for final, cat, and ls commands to name a few
+    // if we are, return true, else return false
     public static boolean checkBackwardsCall(String[] params){
         for (String param : params) {
             if (param.contains("..")) {
@@ -122,7 +131,10 @@ public class GameController {
 
 
 
-
+    // checks if any parameters use the absolute path
+    // we can simply check if the first character of a param is a "/"
+    // if it is then we know it starts an absolute path
+    // then return true, else false
     public static boolean checkAbsPath(String[] params){
 
         for( String s: params){
@@ -161,12 +173,12 @@ public class GameController {
 
 
 
-
-
-    public static boolean isSubFile(String playerPath, String child) {
+    // isSub file takes in the players current directory, and a "child" path
+    // the input child path will need to include the absolute path for generality
+    public static boolean isSubFile(String parent, String child) {
         
-        Path childPath = Paths.get(child).toAbsolutePath().normalize();
-        Path parentPath = Paths.get(playerPath);
+        Path childPath = Paths.get(child);
+        Path parentPath = Paths.get(parent);
 
         // check if both paths exist and are directories
         return (Files.isDirectory(parentPath)    && 
@@ -206,6 +218,22 @@ public class GameController {
         }
     }   
 
+
+
+    // The input.matches("[a-zA-Z0-9._\\-/\\s]+") ensures that the string contains only:
+    // - a-z: lowercase alphabetic characters
+    // - A-Z: uppercase alphabetic characters
+    // - 0-9: numeric characters
+    // - . : period character
+    // - _ : underscore character
+    // - \\: backslash character 
+    // - /: forward slash character
+    // - - : hyphen character
+    // - \\s: any whitespace character (spaces, tabs, line breaks)
+    // The '+' at the end means that the input must contain at least one or more of these allowed characters.
+    // even though in checkCommand, we check first if its length of 0, then we rent
+    // so adding the '+' here is slightly redundant, but for generality, its better to keep it
+
     public static boolean isValidInput(String input) {
         return input != null && input.matches("[a-zA-Z0-9._\\-/\\s]+");
     }
@@ -213,11 +241,25 @@ public class GameController {
 
     
 
+    // checks command and runs the command
+    /*
 
-    public String checkCommand(String command) throws Exception{
+    So far I am registering these commands:
 
-        if ( !isValidInput(command) ){ return "Invalid Command"; }
+        - cd  <dir>, changes current working dir, supports relative paths, upward travel - ../ , ../.., etc, no upward travel from home dir
+        - find <multiple params>, used to find a input file usually using -name
+        - ls <dir> prints contents of dir, if not dir, then contents of current dir
+        - cat : prints file contents
+        - help ( not the linux help command but for introduction )
+        - echo : prints
+        - tree : prints directory structure in nice format
+
+
+    */
+    public String checkAndRunCommand(String command) throws Exception{
+
         if ( command.length() == 0 ) { return ""; }
+        if ( !isValidInput(command) ){ return "Invalid Command"; }
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         PlayerEntity player = playerRepository.findByUsername(username);
@@ -406,6 +448,19 @@ public class GameController {
                     return ret;
                 }
 
+            
+
+
+
+            case "tree":
+                String ret = "Invalid Command";
+
+                if( params.length == 1 ){
+                    ret = executeShellCommand( command, player, null );
+                }
+
+                return ret;
+
 
 
 
@@ -429,7 +484,7 @@ public class GameController {
 
             // getting the command from the request body
             String command = commandReq.getCommand();
-            String ret = checkCommand(command);
+            String ret = checkAndRunCommand(command);
 
             return ResponseEntity.ok(jsonify(ret));
 
