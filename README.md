@@ -21,7 +21,7 @@
 
 - If you want to replicate this project and impliment it, be wary
 - Since the users are inputting shell commands, no matter how much error checking there is it will (kind of) never be 100% secure
-- Note on docker container, it is included in this project, I need to copy over game logic and some path resolving. Everything else is fully functional though, React and Spring Boot are both building and running, along with psql, you can create instances of users in the database via JPA entity automatically created by hibernate as in Spring Boot, spring.jpa.hibernate.ddl-auto is automatically set to auto if its not defined, this allows Hibernate to automatically create missing tables and/or columns based on Entity classes :)
+- Note on docker container, it is included in this project, I need to copy over game logic and some path resolving. Everything else is fully functional though, React and Spring Boot are both building and running, along with psql, you can create instances of users in the database via JPA entity automatically created by hibernate as in Spring Boot, spring.jpa.hibernate.ddl-auto is automatically set to update if its not defined, this allows Hibernate to automatically create missing tables and/or columns based on Entity classes :)
 
 
 ## Setup Instructions
