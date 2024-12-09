@@ -25,13 +25,4 @@ public class HelloController {
     }
 
 
-    @GetMapping("/hellosql")
-    public String saySQL() {
-
-        PlayerEntity player = playerRepository.findByUsername("anakin");
-        
-        String answer1 = player.getAnswer1();
-
-        return answer1;
-    }
 }

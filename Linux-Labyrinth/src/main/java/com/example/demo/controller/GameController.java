@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.security.core.context.SecurityContextHolder;
-import com.example.demo.model.PlayerRepository;
-import com.example.demo.model.PlayerEntity;
+import com.example.demo.service.UpdateUserService;
+import com.example.demo.service.ExecuteCommandService;
+import com.example.demo.service.GetUserService;
 import org.springframework.ui.Model;
 
 // for shell code stuff
@@ -31,11 +31,15 @@ public class GameController {
 
 
     
-    private final PlayerRepository playerRepository;
+    private final UpdateUserService updateService;
+    private final ExecuteCommandService commandService;
+    private final GetUserService getService;
 
     @Autowired
-    public GameController(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
+    public GameController(UpdateUserService updateService, ExecuteCommandService commandService, GetUserService getService) {
+        this.updateService = updateService;
+        this.commandService = commandService;
+        this.getService = getService;
     }
 
 
@@ -60,62 +64,6 @@ public class GameController {
 
 
 
-    /*
-
-    Executed shell command via processBuilder, reads into and InputStreamReader and BufferedReader to return result to user
-    Alot of the checking for valid commands happens before
-    this simply runs it
-    
-    Except ... 
-    we do check the filePath entity if it is specifid
-    it is mean for commands like cat so far, if the file is within the current directory
-    cat does not support backwards travel, so we only check if its a subfile
-
-    */
-    public String executeShellCommand(String command, PlayerEntity p, String filePath) throws Exception {
-        
-        // case when we are doing cat, we need to check if its a valid file path
-        if( filePath != null ){
-            if( !isSubFile(p.getPath(),filePath) ){
-                throw new Exception("Invalid File Path");
-            }
-        }
-
-        String dir = p.getPath();
-        // we know this dirFile is valid since the path is checking before sql input
-        File dirFile = new File(dir);
-
-        // create  ProcessBuilder to execute the shell command
-        ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
-        processBuilder.directory(dirFile);  // setting the working directory for the command
-
-        Process process = processBuilder.start();
-
-        //  BufferedReader reads output InputStreamReader stream
-        // InputStreamReader converts the byte stream from the process output stream to a character stream
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-        // if I had a quarter for every time I wrote stream in this function I would be able to buy
-        // a McChicken
-
-        StringBuilder output = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            output.append(line).append("\n");
-        }
-
-        // Wait for the process to finish and get its exit code
-        int exitCode = process.waitFor();
-        if (exitCode != 0) {
-            throw new Exception("Error executing command, exit code: " + exitCode);
-        }
-
-
-        return output.toString();
-    }
-
-
 
     // checks if any parameters specificed in the input command have backwards travel
     // will need for final, cat, and ls commands to name a few
@@ -130,8 +78,6 @@ public class GameController {
         return false;
 
     }
-
-
 
 
     // checks if any parameters use the absolute path
@@ -202,7 +148,7 @@ public class GameController {
     //
     // this function also works for relative path changing like
     // if i was in dir3 i can do cd ../dir2
-    public void changeDir(PlayerEntity p, String dir) throws Exception{
+    public void changeDir(String username, String dir) throws Exception{
 
         boolean success = true;
 
@@ -216,7 +162,7 @@ public class GameController {
             dir = Paths.get(dir).normalize().toString();
             // else we are going to update column with the new path
             // then return the success of the update
-            success = playerRepository.updateColumnForUser(p.getName(), dir) == 1;
+            success = updateService.updateColumn(username, "currentpath", dir);
         }
 
         if( !success ){
@@ -282,6 +228,23 @@ public class GameController {
     }
 
 
+    public String executePyWrapper(String pyFile, String username) throws Exception{
+        String res = "";
+        switch ( pyFile ){
+            case "run.py":
+                // there is no input for run.py
+                res = commandService.executePythonFile("run.py", username, null);
+                break;
+            case "answer.py":
+                String playerAnswers = getService.getPlayerAnswers(username);
+                res = commandService.executePythonFile("answer.py", username, playerAnswers);
+                break;
+        }
+
+        return res;
+    }
+
+
     
 
     // checks command and runs the command
@@ -297,6 +260,7 @@ public class GameController {
         - echo : prints
         - tree  <dir> : prints directory structure in nice format, dir is optional
         - python3 <filename>.py : runs python file
+        - whoami - prints current user
 
 
     */
@@ -305,31 +269,28 @@ public class GameController {
         if ( command.length() == 0 ) { return ""; }
         if ( !isValidInput(command) ){ return "Invalid Command"; }
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        PlayerEntity player = playerRepository.findByUsername(username);
+        String username = getService.getPlayerName();
         String[] params = command.split(" ");
-
         Path cwd = Paths.get("").toAbsolutePath().getParent().resolve("labyrinth").normalize();
-        String playerPath = player.getPath();
+        String playerPath = getService.getPlayerPath( username );
 
 
         // checking if the path entered is absolute path
-        if( checkAbsPath(params) ){
+        if( checkAbsPath( params ) ){
             return "Please don't use the absolute path in parameters with a forward slash at the beginning!";
         }
 
-        if( containsBlackListed(command ) ){
+        if( containsBlackListed( command ) ){
             return "Contains blacklisted flag, please do not use it!";
         }
 
-        print(command);
         // we will need this for cat, ls, find, ...
         // we will check specifically in cd and handle seperatly
         // but in cat, ls, find, I decided to just disable it
-        boolean goesBackwards = checkBackwardsCall(params);
+        boolean goesBackwards = checkBackwardsCall( params );
 
 
-        switch(params[0]){
+        switch( params[0] ){
 
 
 
@@ -353,7 +314,7 @@ public class GameController {
                         "there are seven total keywords needed to solve the puzzle!" +
                         "When you fine all seven keywords, you can run answer.py, more on that later ...\n" +
                         "-------------------------------------------------------\n" +
-                        "Enjoy!", player.getName());
+                        "Enjoy!", username);
 
                 }
 
@@ -367,7 +328,7 @@ public class GameController {
                         
                     // case when its cd " " - being cd nothing, we go back to the labyrinth dir
                     if( params.length == 1 || (params.length == 2 && params[1].equals("~")) ){
-                        changeDir(player, cwd.toString());
+                        changeDir(username, cwd.toString());
                     }   
 
                     // too many args just return
@@ -379,14 +340,14 @@ public class GameController {
 
                     // go to parent dir, bound checking happens in changedir
                     else if( params[1].equals("..") ){
-                        changeDir(player, Paths.get(playerPath).getParent().toString());
+                        changeDir(username, Paths.get(playerPath).getParent().toString());
                     }
 
                     else {
                         
                         // if the command starts with a / we dont want to pad it with an additional / 
 
-                        changeDir(player, playerPath + "/" + params[1] );
+                        changeDir(username, playerPath + "/" + params[1] );
                     }
 
                     return "";
@@ -409,7 +370,7 @@ public class GameController {
                     }
 
                     else if( params.length <= 2)
-                        ret = executeShellCommand(command, player, null);
+                        ret = commandService.executeShellCommand(command, username);
        
                     return ret;
                 }
@@ -438,7 +399,7 @@ public class GameController {
                         // building response since we can cat multiple files
                         StringBuilder sb = new StringBuilder("");
                         for( int i = 1; i < params.length; i++){
-                            sb.append(executeShellCommand("cat "+ params[i], player, null));
+                            sb.append(commandService.executeShellCommand("cat "+ params[i], username));
                         }
 
                         ret = sb.toString();
@@ -475,6 +436,10 @@ public class GameController {
 
 
 
+            case "whoami":
+                if( params.length == 1 )
+                    return getService.getPlayerName();
+                return "Too many parameters, just enter whoami!";
 
 
 
@@ -492,12 +457,12 @@ public class GameController {
                     }
 
                     else if( params.length <= 3 ){
-                        ret = executeShellCommand( command, player, null);
+                        ret = commandService.executeShellCommand( command, username );
                     }
 
                     else if( params.length == 4 ){
                         params[3] = params[3].replace("\"","");
-                        ret = executeShellCommand( command , player, null );
+                        ret = commandService.executeShellCommand( command , username );
                     }
 
                     
@@ -518,7 +483,7 @@ public class GameController {
                     }
 
                     else if( params.length <= 2 ){
-                        ret = executeShellCommand( command, player, null );
+                        ret = commandService.executeShellCommand( command, username );
                     }
 
                     return ret;
@@ -535,12 +500,34 @@ public class GameController {
                         ret = "Can't go backwards for python executables, sorry!";
                     }
 
-                    else if( params.length == 2 ){
-                        ret = executeShellCommand( command, player, null);
-                    }
 
+                    else if( params.length == 2 ){
+                        ret = executePyWrapper(params[1], username);
+                        ret = ret.replace("\n","");
+                        if( ret.equals("True") )
+                            ret = "Congradulations, you finished the game!!!!";
+                        else if( ret.equals("False") )
+                            ret = "One or more of your answers are wrong, sorry!";
+                    }
                     return ret;
                 }
+
+
+            case "answer_1":
+            case "answer_2":
+            case "answer_3":
+            case "answer_4":
+            case "answer_5":
+            case "answer_6":
+            case "answer_7":
+                String res = "Invalid number of parameters, enter two!";
+                if( params.length == 2 ){
+                    updateService.updateColumn(username, params[0], params[1]);
+                    res = "Entered " + params[1] + " for " + params[0];
+                }
+                return res;
+
+
 
             default:
                 throw new Exception("Invalid Command");

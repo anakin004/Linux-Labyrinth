@@ -13,5 +13,6 @@ You found the third clue ..
 -- We want to change directory too .. I have no ideas, maybe something to do with dots ..
 -- once you find what the <something> is, that is your third answer!
 
+-- after you find this out, try search around for the next clue with your knowledge of cd!
 
 _________________________

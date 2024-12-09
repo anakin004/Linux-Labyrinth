@@ -66,6 +66,30 @@ public class PlayerEntity {
         return answer_1;
     }
 
+    public String getAnswer2(){
+        return answer_2;
+    }
+
+    public String getAnswer3(){
+        return answer_3;
+    }
+
+    public String getAnswer4(){
+        return answer_4;
+    }
+
+    public String getAnswer5(){
+        return answer_5;
+    }
+
+    public String getAnswer6(){
+        return answer_6;
+    }
+
+    public String getAnswer7(){
+        return answer_7;
+    }
+
     public String getPath(){
         return currentpath;
     }

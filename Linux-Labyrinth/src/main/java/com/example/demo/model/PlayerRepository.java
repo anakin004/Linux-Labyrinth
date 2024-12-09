@@ -22,5 +22,43 @@ public interface PlayerRepository extends JpaRepository<PlayerEntity, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE PlayerEntity p SET p.currentpath = :value WHERE p.username = :username")
-    int updateColumnForUser(@Param("username") String username, @Param("value") String value);
+    int updatePathForUser(@Param("username") String username, @Param("value") String value);
+
+
+    // since jpa does not support dyanmic col insertion, we must define an insertion for every answer column
+    @Modifying
+    @Transactional
+    @Query("UPDATE PlayerEntity p SET p.answer_1 = :value WHERE p.username = :username")
+    int updateAnswer1ForUser(@Param("username") String username, @Param("value") String value);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE PlayerEntity p SET p.answer_2 = :value WHERE p.username = :username")
+    int updateAnswer2ForUser(@Param("username") String username, @Param("value") String value);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE PlayerEntity p SET p.answer_3 = :value WHERE p.username = :username")
+    int updateAnswer3ForUser(@Param("username") String username, @Param("value") String value);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE PlayerEntity p SET p.answer_4 = :value WHERE p.username = :username")
+    int updateAnswer4ForUser(@Param("username") String username, @Param("value") String value);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE PlayerEntity p SET p.answer_5 = :value WHERE p.username = :username")
+    int updateAnswer5ForUser(@Param("username") String username, @Param("value") String value);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE PlayerEntity p SET p.answer_6 = :value WHERE p.username = :username")
+    int updateAnswer6ForUser(@Param("username") String username, @Param("value") String value);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE PlayerEntity p SET p.answer_7 = :value WHERE p.username = :username")
+    int updateAnswer7ForUser(@Param("username") String username, @Param("value") String value);
+
 }
