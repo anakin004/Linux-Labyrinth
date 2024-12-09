@@ -17,6 +17,11 @@
 - **Maven**: The build tool used for managing dependencies, compiling, testing, and running the application.
 - **Docker**: Used optionally for setting up PostgreSQL in a containerized environment, making the setup process easier.
 
+## Important Notes
+
+- **If you want to replicate this project and impliment it, be wary
+- since the users are inputting shell commands, no matter how much error checking there is it will (kind of) never be 100% secure
+
 
 ## Setup Instructions
 
