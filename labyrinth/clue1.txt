@@ -1,1 +1,20 @@
-This is a test!
+_________________________
+
+You found the first clue!
+
+
+-- Notice, when you did ls that there was another door,
+-- and an answer.py file, the answer.py file will be for checking all your answers!
+-- notice the door has no extension, its a directory!
+-- we know we want to enter that door, it might take us somewhere!
+
+-- to give you a hint, we want to go to door2 for now.
+
+-- in order to do that we change to (c)hange (d)irectory to door2
+-- the command is two letters I know that much ...
+-- you will run _ _ door2
+
+
+~= little help node, you can run the clear command if you want to clear the terminal of previous inputs and outputs
+
+_________________________

@@ -22,6 +22,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 
+
+import java.util.Arrays;
+import java.util.List;
+
 @RestController
 public class GameController {
 
@@ -85,8 +89,6 @@ public class GameController {
         ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
         processBuilder.directory(dirFile);  // setting the working directory for the command
 
-        print(command);
-
         Process process = processBuilder.start();
 
         //  BufferedReader reads output InputStreamReader stream
@@ -108,6 +110,7 @@ public class GameController {
         if (exitCode != 0) {
             throw new Exception("Error executing command, exit code: " + exitCode);
         }
+
 
         return output.toString();
     }
@@ -149,7 +152,7 @@ public class GameController {
 
 
 
-
+    // print wrapper 
     public static <T> void print(T s){
         System.out.println(s);
     }
@@ -207,7 +210,10 @@ public class GameController {
             success = false;
         }
 
+
         else{
+            // get rid of ../ and ..'s
+            dir = Paths.get(dir).normalize().toString();
             // else we are going to update column with the new path
             // then return the success of the update
             success = playerRepository.updateColumnForUser(p.getName(), dir) == 1;
@@ -217,6 +223,18 @@ public class GameController {
             throw new Exception("Invalid Path");
         }
     }   
+
+
+    // concats an arr of strings from beg to end
+    public static String concat(String[] params, int beg, int end){
+        StringBuilder sb = new StringBuilder("");
+
+        for(int i = beg; i < end; i++){
+            sb.append(params[i] + " ");
+        }
+
+        return sb.toString();
+    }
 
 
 
@@ -235,7 +253,32 @@ public class GameController {
     // so adding the '+' here is slightly redundant, but for generality, its better to keep it
 
     public static boolean isValidInput(String input) {
-        return input != null && input.matches("[a-zA-Z0-9._\\-/\\s]+");
+
+        // edge case, we only want to allow flags if it is a find and uses -name
+        // we will only allow flags for find, further checking happens in the containsBlackListed function below
+        String[] params = input.split(" ");
+        if( params.length >= 1 && params[0].equals("find") ){
+            return input.matches("[a-zA-Z0-9._\\-/\\s]+");
+        }
+
+        return input != null && input.matches("[a-zA-Z0-9._\\/\\s]+");
+    }
+
+    // cant add and remove in the blackListedFlags
+    private static final List<String> blackListedFlags = Arrays.asList(
+        "-rf", "-f", "-r", "-exec", "-delete", "-v", "-i", "> /dev/null", "2>&1", "&&", "||", ";",
+        "--help", "-a", "--no-preserve-root", "-S", "--remove", "-c", "--recursive", "-o", "-L", 
+        "--force", "-T", "--unlink", "--strip", "--all", "--no-preserve-root"
+    );
+
+    // checks blacklisted flags in our input
+    public static boolean containsBlackListed(String command) {
+        for (String flag : blackListedFlags) {
+            if (command.contains(flag)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -252,7 +295,8 @@ public class GameController {
         - cat : prints file contents
         - help ( not the linux help command but for introduction )
         - echo : prints
-        - tree : prints directory structure in nice format
+        - tree  <dir> : prints directory structure in nice format, dir is optional
+        - python3 <filename>.py : runs python file
 
 
     */
@@ -274,6 +318,11 @@ public class GameController {
             return "Please don't use the absolute path in parameters with a forward slash at the beginning!";
         }
 
+        if( containsBlackListed(command ) ){
+            return "Contains blacklisted flag, please do not use it!";
+        }
+
+        print(command);
         // we will need this for cat, ls, find, ...
         // we will check specifically in cd and handle seperatly
         // but in cat, ls, find, I decided to just disable it
@@ -300,6 +349,9 @@ public class GameController {
                         "-------------------------------------------------------\n" +
                         "You will need to find a command that looks like command clue(x).txt\n" +
                         "Hint: command is all lowercase, and is the name of a domestic feline related to lions\n" +
+                        "this command will be essential in seeing what all the clues hold!\n" +
+                        "there are seven total keywords needed to solve the puzzle!" +
+                        "When you fine all seven keywords, you can run answer.py, more on that later ...\n" +
                         "-------------------------------------------------------\n" +
                         "Enjoy!", player.getName());
 
@@ -373,8 +425,8 @@ public class GameController {
                     String ret = "Can't find file!";
 
                     // edge case, we don't want to let the user be able to print out the contents of answer.py
-                    if(params[1].equals("answer.py") ){
-                        ret = "Sorry! You can't read answer.py =(";
+                    if(params[1].equals("answer.py") || params[1].equals("run.py") ){
+                        ret = "Sorry! You can't read python files =(";
                     }
 
                     // checking backwards ls
@@ -405,7 +457,17 @@ public class GameController {
                     // I decide for the scope of the project for now that we just replace it in echo
                     String res = "";
                     if( params.length > 1){
-                        res = params[1].replace("\"", "");
+
+                        if( params[1].equals("linux") ){
+                            res = params[1].replace("\"", "") + "\nCorrect! " +
+                                                                "Naviagte to the root directory, and run run.py\n" +
+                                                                "To run python files you will type python3 then filename\n" +
+                                                                "specifically:\n"+
+                                                                "python3 <filename>.py\n";
+                        }
+                        else{
+                            res = concat(params, 1, params.length);
+                        }
                     }
                     return res;
 
@@ -429,19 +491,13 @@ public class GameController {
                         ret = "Backwards disabled for find, sorry!";
                     }
 
-                    else if( params.length <= 2 ){
+                    else if( params.length <= 3 ){
                         ret = executeShellCommand( command, player, null);
                     }
 
-                    else if( params.length <= 4 ){
-
-
-                        // quick fix, 
-                        // executeShellCommand will return ./dir1/dir2 ...
-                        // we can get rid of the initial dot by just doing substr starting at idx 1
-                        // reulting in /dir1/dir2 ...
-                        ret = executeShellCommand( command , player, null ).substring(1);
-
+                    else if( params.length == 4 ){
+                        params[3] = params[3].replace("\"","");
+                        ret = executeShellCommand( command , player, null );
                     }
 
                     
@@ -453,16 +509,38 @@ public class GameController {
 
 
             case "tree":
-                String ret = "Invalid Command";
+                {
 
-                if( params.length == 1 ){
-                    ret = executeShellCommand( command, player, null );
+                    String ret = "Invalid Command";
+
+                    if( goesBackwards ){
+                        ret = "Backwards disabled for tree, sorry!";
+                    }
+
+                    else if( params.length <= 2 ){
+                        ret = executeShellCommand( command, player, null );
+                    }
+
+                    return ret;
+
                 }
 
-                return ret;
 
+            case "python3":
 
+                {
+                    String ret = "Coudln't find file!, make sure the filename is <filename>.py";
 
+                    if( goesBackwards ){
+                        ret = "Can't go backwards for python executables, sorry!";
+                    }
+
+                    else if( params.length == 2 ){
+                        ret = executeShellCommand( command, player, null);
+                    }
+
+                    return ret;
+                }
 
             default:
                 throw new Exception("Invalid Command");

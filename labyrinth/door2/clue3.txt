@@ -1,0 +1,17 @@
+_________________________
+
+You found the third clue ..
+
+
+-- The answer to keyword three is going to be a little more dificult
+-- We now have a slight issue .. we are stuck ..
+-- How do we get back to where we just were .. 
+
+
+-- Well, I think that we want to run cd <something> might be useful ..
+-- we definitely want to change directories upwards since we are at a dead end
+-- We want to change directory too .. I have no ideas, maybe something to do with dots ..
+-- once you find what the <something> is, that is your third answer!
+
+
+_________________________

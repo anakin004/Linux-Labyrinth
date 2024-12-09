@@ -1,11 +1,11 @@
 com/example/demo/config/SecurityConfig.class
 com/example/demo/controller/GameController$CommandRequest.class
-com/example/demo/model/PlayerRepository.class
 com/example/demo/service/CreateUserService.class
 com/example/demo/controller/LoginController.class
 com/example/demo/config/BeanConfig.class
 com/example/demo/service/AuthenticationService.class
-com/example/demo/DemoApplication.class
 com/example/demo/controller/HelloController.class
-com/example/demo/model/PlayerEntity.class
 com/example/demo/controller/GameController.class
+com/example/demo/model/PlayerRepository.class
+com/example/demo/DemoApplication.class
+com/example/demo/model/PlayerEntity.class

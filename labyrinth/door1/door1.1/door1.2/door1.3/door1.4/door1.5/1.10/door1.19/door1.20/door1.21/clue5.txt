@@ -1,0 +1,24 @@
+_________________________
+
+You found the 5th clue!
+
+You now see the power of the find command ( if you used it )
+
+-- the answer to keyword number 5 is the name of this next command
+
+-- Next clue will be slightly tougher to find
+
+-- Has roots at the bottom
+-- Branches as it grows
+-- Something Canadians would proudly display!
+
+-- You can run this command either alone, like <command>
+-- or, <command> <dir>
+
+
++~ also, once you find the command, you may notice you want a bigger view
+   doing cd .. many times might be boring, to save you time you can do simply type cd
+   and you will go to the root directory!
+
+_________________________
+ 

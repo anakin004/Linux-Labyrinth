@@ -1,12 +1,23 @@
-___________________________________________________________
+_________________________
+
+You found the 4th clue!
 
 
---------
-Dead End ..
---------
+-- The answer to the -> 4th  keyword <- , is going to the name of this command
+-- You will need to find this next clue, but be wary ...
+-- I am letting you know doing cd .. and cd <dir> to find is going to be very tedious
 
-How will you get back ..
-Well, I think that we want to run cd (something) might be useful ..
-We want to change directory too .. I got no ideas, maybe something to do with dots ? ..
+-- However do not fret!
 
-___________________________________________________________ 
+-- There is a command that lets you search for a file giving it a name to search for!
+-- for syntax purposes the command is going to be formatted as follows
+-- <command> . -name clue5.txt
+-- hint its a four letter word, and is a synonym for search, also, the word exsits in this clue!
+
+-- once you find the file, it will give you a path to the file, copy and paste that path and you can cat it!
+
+-- to preface, the dot (.), specifies where to search from
+-- optionally, you can choose to search from a specific directory instead of the dot (.)
+-- once again the 4th keyword is the command in <command> . -name clue5.txt
+
+_________________________

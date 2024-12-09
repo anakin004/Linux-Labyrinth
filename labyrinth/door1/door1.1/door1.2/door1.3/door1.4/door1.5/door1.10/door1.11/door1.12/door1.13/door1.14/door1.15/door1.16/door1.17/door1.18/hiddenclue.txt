@@ -1,0 +1,23 @@
+_________________________
+
+You found the 6th clue, your doing great!
+
+
+-- Now you see the abilties of tree!
+-- Now you will learn about a command that allows you to print to the terminal
+-- this is useful for messages other users logged in, 
+-- debugging scrips, displaying variables in scripts, and more!
+
+-- the structure of this command is 
+-- <command> <message>
+-- and you message can be enclosed in quotes or not
+-- either way it will print your message to the terminal
+
+-- for the 6th keyword is the name of this next command 
+-- if you run <command> and a specific message, it will give instructions to find the final keyword!
+-- hint - the message is the Operating System (OS) used in this project, ensure all letters are lowercase!
+-- hint - the command starts with e, is four letters, so e _ _ _, 
+-- Like a cave or canyon, it repeats back what you say to it, what is this process?
+
+
+_________________________

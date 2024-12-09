@@ -8,33 +8,40 @@ const Terminal = () => {
   const handleCommand = async (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      
-      // add command to history
-      setHistory(prev => [...prev, { text: currentCommand, isCommand: true }]);
-      
-      // for calling backend API
-      try {
-        const response = await fetch('/api/execute-command', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ command: currentCommand })
-        });
 
-        // after we send post we can just set current command to nothing 
+      if( currentCommand === "clear" ){
+        setHistory([{ text: '', isCommand: false }]);
         setCurrentCommand('');
-
-        const result = await response.json();
-
-        // converting back to newline characters for rendering
-        result.message = result.message.replace(/\\n/g, '\n');
-
-        // adding response to history
-        setHistory(prev => [...prev, { text: result.message, isCommand: false }]);
-      } catch (error) {
-        setHistory(prev => [...prev, { text: 'Error executing command...', isCommand: false }]);
-        console.log("Error: ", error);
       }
-    }
+      
+      else{
+        // add command to history
+        setHistory(prev => [...prev, { text: currentCommand, isCommand: true }]);
+        
+        // for calling backend API
+        try {
+          const response = await fetch('/api/execute-command', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ command: currentCommand })
+          });
+
+          // after we send post we can just set current command to nothing 
+          setCurrentCommand('');
+
+          const result = await response.json();
+
+          // converting back to newline characters for rendering
+          result.message = result.message.replace(/\\n/g, '\n');
+
+          // adding response to history
+          setHistory(prev => [...prev, { text: result.message, isCommand: false }]);
+        } catch (error) {
+          setHistory(prev => [...prev, { text: 'Error executing command...', isCommand: false }]);
+          console.log("Error: ", error);
+        }
+      }
+    } 
   };
 
   useEffect(() => {
