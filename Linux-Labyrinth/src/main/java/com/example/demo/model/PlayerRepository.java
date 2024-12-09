@@ -26,6 +26,7 @@ public interface PlayerRepository extends JpaRepository<PlayerEntity, Long> {
 
 
     // since jpa does not support dyanmic col insertion, we must define an insertion for every answer column
+    // we could set native flag to true, but I would rather avoid that
     @Modifying
     @Transactional
     @Query("UPDATE PlayerEntity p SET p.answer_1 = :value WHERE p.username = :username")
