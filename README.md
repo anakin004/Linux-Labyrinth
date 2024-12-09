@@ -19,8 +19,8 @@
 
 ## Important Notes
 
-- **If you want to replicate this project and impliment it, be wary
-- since the users are inputting shell commands, no matter how much error checking there is it will (kind of) never be 100% secure
+- If you want to replicate this project and impliment it, be wary
+- Since the users are inputting shell commands, no matter how much error checking there is it will (kind of) never be 100% secure
 
 
 ## Setup Instructions
