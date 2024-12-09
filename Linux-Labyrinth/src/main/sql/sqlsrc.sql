@@ -1,32 +1,53 @@
 
 /*
 ---
-these sql instructions layout the foundation for the postgresql database
----
+setting up postgresql database
+
 */
 
--- allow access to the database
-CREATE DATABASE EXAMPLE_DB;
-CREATE USER EXAMPLE_USER WITH ENCRYPTED PASSWORD 'Sup3rS3cret';
-GRANT ALL PRIVILEGES ON DATABASE EXAMPLE_DB TO EXAMPLE_USER;
-\c EXAMPLE_DB postgres
-# You are now connected to database "EXAMPLE_DB" as user "postgres".
-GRANT ALL ON SCHEMA public TO EXAMPLE_USER;
+/*
+connecting to database, in linux
+*/
+sudo -u postgres psql
 
-/* adding a default player for testing */
-INSERT INTO table_name (col1, col2, ..., coln)
-VALUES (val1, val2, ..., valn.);
 
-INSERT INTO public.player_answers (username, password, answer_1, answer_2, answer_3, answer_4,
-answer_5, answer_6, answer_7, currentPath) 
-VALUES ('anakin', 'default', 'episode', '3', 'revenge', 'of', 'the', 'sith', 'jedi', '');
+-- in postgres, you can change around username and password as you wish, and database name of course
+CREATE DATABASE labyrinth;
+CREATE USER ryan WITH ENCRYPTED PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE labyrinth TO ryan;
+\c labyrinth postgres
+# You are now connected to database "labyrinth" as user "postgres".
+GRANT ALL ON SCHEMA public TO ryan;
+
+
+-- now you want create a table in the database
+-- switching to the user you made also
+\c labyrinth ryan 
+-- or whatever username and db name you have
+-- this may not work, it may say Peer authentication failed
+-- in this case do sudo find /etc/ -name pg_hba.conf
+-- then sudo nano /etc/postgresql/<version>/main/pg_hba.conf
 
 /*
 
-database will contain user info like username and password for login, resuming progress 
-there will be 7 riddles that one will have to solve and if they get all 7 answers then they will win
+find the line that looks like
+
+local   all             all                                     peer
+
+-> change peer to md5, save and quit
+
+peer means that postgresql authenticates by checking the postgresql username to the opertating system username
+if they don't match theres no auth
+md5 authenticates via password
+this is still secure since passwords are encrypted
+
+now run 
+sudo systemctl restart postgresql
+
 */
 
+
+-- now you create the table for the application
 CREATE TABLE public.player_answers (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100),
@@ -39,5 +60,10 @@ CREATE TABLE public.player_answers (
     answer_5 VARCHAR(255),
     answer_6 VARCHAR(255),
     answer_7 VARCHAR(255),
-    currentpath VARCHAR(255),
+    currentpath VARCHAR(255)
 );
+
+
+-- now if you run SELECT * FROM public.player_answers; 
+-- you should see your table, when a new user is created in the login/create user page
+-- a new instance will be initialized in the table
