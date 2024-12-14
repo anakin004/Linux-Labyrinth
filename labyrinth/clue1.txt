@@ -15,6 +15,6 @@ You found the first clue!
 -- you will run _ _ door2
 
 
-~= little help node, you can run the clear command if you want to clear the terminal of previous inputs and outputs
+~= little help note, you can run the clear command if you want to clear the terminal of previous inputs and outputs
 
 _________________________

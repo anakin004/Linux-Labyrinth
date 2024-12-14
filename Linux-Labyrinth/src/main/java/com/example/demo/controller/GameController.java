@@ -312,11 +312,11 @@ public class GameController {
                         "You can quit at any time and your progress will be saved\n" +
                         "To begin your journey type ls in the command prompt\n" +
                         "-------------------------------------------------------\n" +
-                        "You will need to find a command that looks like command clue(x).txt\n" +
-                        "Hint: command is all lowercase, and is the name of a domestic feline related to lions\n" +
+                        "You will need to find a command that looks like <command> clue<x>.txt\n" +
+                        "Hint: the command is all lowercase, and is the name of a domestic feline related to lions\n" +
                         "this command will be essential in seeing what all the clues hold!\n" +
                         "there are seven total keywords needed to solve the puzzle!" +
-                        "When you fine all seven keywords, you can run answer.py, more on that later ...\n" +
+                        "When you find all seven keywords, you can run answer.py, more on that later ...\n" +
                         "-------------------------------------------------------\n" +
                         "Enjoy!", username);
 
