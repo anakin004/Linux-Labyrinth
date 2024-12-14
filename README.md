@@ -9,7 +9,7 @@
 - **RESTful API**: The application exposes endpoints to interact with the data stored in the PostgreSQL database, allowing users to perform CRUD (Create, Read, Update, Delete) operations via HTTP requests.
 - **Docker Support**: The project can be configured to run PostgreSQL in a Docker container, making it easier to set up a local development environment without the need for manual PostgreSQL installation.
 - **UI**: An interractive web interface that makes the learning process engaging.
-- **Azure**: I hosted the web application on Azure using a Cloud-Based Virtual Machine (VM) to provide reliable and scalable access via GitHub. This enabled efficient deployment and streamlined access for users.
+- **Web-Hosting**: I hosted the web application on Azure using a Cloud-Based Virtual Machine (VM) to provide reliable and scalable access via GitHub. This enabled efficient deployment and streamlined access for users.
 ## Technologies Used
 - **Java 17, HTML & CSS, JavaScript**: Programming languages used for this project.
 - **Tailwind CSS, React, PostCSS**: Frontend technologies used for styling, building dynamic user interfaces, and optimizing CSS.
@@ -17,6 +17,7 @@
 - **PostgreSQL**: A powerful relational database management system used to store application data.
 - **Maven**: The build tool used for managing dependencies, compiling, testing, and running the application.
 - **Docker**: Used optionally for setting up PostgreSQL in a containerized environment, making the setup process easier.
+- **Azure**: A cloud computing platform that offers a variety of services to help users build, run, and manage applications
 
 ## Important Notes
 
