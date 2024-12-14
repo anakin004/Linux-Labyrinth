@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.demo.service.UpdateUserService;
 import com.example.demo.service.ExecuteCommandService;
 import com.example.demo.service.GetUserService;
+import com.example.demo.service.LoggerService;
 import org.springframework.ui.Model;
 
 // for shell code stuff
@@ -43,7 +44,7 @@ public class GameController {
     }
 
 
-
+	
 
      // a request body class to handle the command
      // using @RequestBody
@@ -68,7 +69,7 @@ public class GameController {
     // checks if any parameters specificed in the input command have backwards travel
     // will need for final, cat, and ls commands to name a few
     // if we are, return true, else return false
-    public static boolean checkBackwardsCall(String[] params){
+    private static boolean checkBackwardsCall(String[] params){
         for (String param : params) {
             if (param.contains("..")) {
                 return true;
@@ -84,7 +85,7 @@ public class GameController {
     // we can simply check if the first character of a param is a "/"
     // if it is then we know it starts an absolute path
     // then return true, else false
-    public static boolean checkAbsPath(String[] params){
+    private static boolean checkAbsPath(String[] params){
 
         for( String s: params){
             if( s.charAt(0) == '/') {
@@ -106,7 +107,7 @@ public class GameController {
 
 
 
-    public static boolean isSubdirectory(String child) {
+    private static boolean isSubdirectory(String child) {
         Path parentPath = Paths.get("").toAbsolutePath().getParent().resolve("labyrinth").normalize();
         Path childPath = Paths.get(child).toAbsolutePath().normalize();
 
@@ -124,7 +125,7 @@ public class GameController {
 
     // isSub file takes in the players current directory, and a "child" path
     // the input child path will need to include the absolute path for generality
-    public static boolean isSubFile(String parent, String child) {
+    private static boolean isSubFile(String parent, String child) {
         
         Path childPath = Paths.get(child);
         Path parentPath = Paths.get(parent);
@@ -148,7 +149,7 @@ public class GameController {
     //
     // this function also works for relative path changing like
     // if i was in dir3 i can do cd ../dir2
-    public void changeDir(String username, String dir) throws Exception{
+    private void changeDir(String username, String dir) throws Exception{
 
         boolean success = true;
 
@@ -172,7 +173,7 @@ public class GameController {
 
 
     // concats an arr of strings from beg to end
-    public static String concat(String[] params, int beg, int end){
+    private static String concat(String[] params, int beg, int end){
         StringBuilder sb = new StringBuilder("");
 
         for(int i = beg; i < end; i++){
@@ -198,7 +199,7 @@ public class GameController {
     // even though in checkCommand, we check first if its length of 0, then we rent
     // so adding the '+' here is slightly redundant, but for generality, its better to keep it
 
-    public static boolean isValidInput(String input) {
+    private static boolean isValidInput(String input) {
 
         // edge case, we only want to allow flags if it is a find and uses -name
         // we will only allow flags for find, further checking happens in the containsBlackListed function below
@@ -218,7 +219,7 @@ public class GameController {
     );
 
     // checks blacklisted flags in our input
-    public static boolean containsBlackListed(String command) {
+    private static boolean containsBlackListed(String command) {
         for (String flag : blackListedFlags) {
             if (command.contains(flag)) {
                 return true;
@@ -228,7 +229,7 @@ public class GameController {
     }
 
 
-    public String executePyWrapper(String pyFile, String username) throws Exception{
+    private String executePyWrapper(String pyFile, String username) throws Exception{
         String res = "";
         switch ( pyFile ){
             case "run.py":
@@ -267,11 +268,12 @@ public class GameController {
     public String checkAndRunCommand(String command) throws Exception{
 
         if ( command.length() == 0 ) { return ""; }
+	
+	String username = getService.getPlayerName();
+	LoggerService.Log(username, command, "logs.txt");
+
         if ( !isValidInput(command) ){ return "Invalid Command"; }
 	
-	print(command);	
-
-        String username = getService.getPlayerName();
         String[] params = command.split(" ");
         Path cwd = Paths.get("").toAbsolutePath().getParent().resolve("labyrinth").normalize();
         String playerPath = getService.getPlayerPath( username );

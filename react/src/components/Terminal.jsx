@@ -1,14 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+import './Hamburger.css';
+
 const Terminal = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [history, setHistory] = useState([{ text: 'Welcome to Linux Labyrinth! Type "help" to begin...', isCommand: false }]);
   const [currentCommand, setCurrentCommand] = useState('');
+  const [apiKey, setApiKey] = useState('');
   const terminalRef = useRef(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  
 
   const handleCommand = async (e) => {
     if (e.key === 'Enter') {
@@ -38,7 +43,7 @@ const Terminal = () => {
 
           // converting back to newline characters for rendering
           result.message = result.message.replace(/\\n/g, '\n');
-
+	  console.log(apiKey);
           // adding response to history
           setHistory(prev => [...prev, { text: result.message, isCommand: false }]);
         } catch (error) {
@@ -102,24 +107,34 @@ const Terminal = () => {
             </div>
           </div>
         </div>
-    {/* Hamburger Icon For Key */}
-    <div className="hamburger" onClick={toggleMenu}>
-        &#9776; {/* Hamburger icon */}
-      </div>
-
-      {/* Dropdown Menu (hidden by default) */}
-      {isMenuOpen && (
-        <div className="dropdown-menu">
-          <label htmlFor="api-input">Enter API Key:</label>
-          <input
-            id="api-input"
-            type="text"
-            placeholder="API Key"
-          />
+     </div>
+ {/* Hamburger Menu */}
+      <div className="fixed top-0 left-0 p-4 z-10">
+        <div className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+          &#9776; {/* Hamburger icon */}
         </div>
-      )}
-    </div>
- 
+
+        {/* Dropdown Menu (hidden by default) */}
+        {isMenuOpen && (
+	    <div
+            className="dropdown-menu bg-gray-800 text-white p-4 mt-2 transition-transform duration-300 ease-in-out"
+            style={{
+              transform: 'translateX(0)', // Ensure the dropdown moves from left to right
+              opacity: isMenuOpen ? 1 : 0,  // Fade-in effect
+              visibility: isMenuOpen ? 'visible' : 'hidden', // Control visibility for smoother transition
+            }}
+            >
+            <label htmlFor="api-input" className="mb-2">Enter API Key:</label>
+            <input
+              id="api-input"
+              type="text"
+              placeholder="API Key"
+              onChange={(e) => setApiKey(e.target.value)}
+              className="dropdown-input border border-white p-2 mt-2 rounded-md"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
   

@@ -9,6 +9,7 @@ com/example/demo/config/BeanConfig.class
 com/example/demo/service/AuthenticationService.class
 com/example/demo/controller/HelloController.class
 com/example/demo/controller/GameController.class
+com/example/demo/service/LoggerService.class
 com/example/demo/model/PlayerRepository.class
 com/example/demo/service/ExecuteCommandService.class
 com/example/demo/DemoApplication.class
