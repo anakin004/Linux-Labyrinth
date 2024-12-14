@@ -3,10 +3,12 @@
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/config/SecurityConfig.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/service/UpdateUserService.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/service/CreateUserService.java
+/home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/model/ApiEntity.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/config/BeanConfig.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/model/PlayerRepository.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/controller/LoginController.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/controller/HelloController.java
+/home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/model/ApiRepository.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/service/ExecuteCommandService.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/service/AuthenticationService.java
 /home/ryan/Linux-Labyrinth/Linux-Labyrinth/src/main/java/com/example/demo/service/GetUserService.java

@@ -63,3 +63,5 @@ public interface PlayerRepository extends JpaRepository<PlayerEntity, Long> {
     int updateAnswer7ForUser(@Param("username") String username, @Param("value") String value);
 
 }
+
+

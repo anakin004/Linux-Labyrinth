@@ -1,3 +1,5 @@
 anakin: ls at, 06:45:29.692878
 anakin: cat at, 06:45:32.702532
 anakin: bruh at, 06:45:34.549087
+anakin: ls at, 12:49:36.190790
+anakin: tree at, 12:49:38.774283
