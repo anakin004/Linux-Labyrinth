@@ -13,11 +13,11 @@ sudo -u postgres psql
 
 -- in postgres, you can change around username and password as you wish, and database name of course
 CREATE DATABASE labyrinth;
-CREATE USER ryan WITH ENCRYPTED PASSWORD 'password';
-GRANT ALL PRIVILEGES ON DATABASE labyrinth TO ryan;
+CREATE USER player WITH ENCRYPTED PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE labyrinth TO player;
 \c labyrinth postgres
 # You are now connected to database "labyrinth" as user "postgres".
-GRANT ALL ON SCHEMA public TO ryan;
+GRANT ALL ON SCHEMA public TO player;
 
 
 -- now you want create a table in the database
@@ -46,12 +46,17 @@ sudo systemctl restart postgresql
 
 */
 
+-- optional !!!!!
+-- hibernate will create this automatically
+-- refer to application properties file in ../resources dir
 
 -- now you create the table for the application
 CREATE TABLE public.player_answers (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100),
     password VARCHAR(100),
+    apikey VARCHAR(255),
+    remaining_api_requests INT
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     answer_1 VARCHAR(255),
     answer_2 VARCHAR(255),

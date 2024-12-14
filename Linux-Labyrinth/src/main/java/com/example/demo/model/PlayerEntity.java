@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
-
+import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -13,25 +15,73 @@ import java.nio.file.Paths;
 @Entity
 @Table(name = "player_answers") 
 public class PlayerEntity {
+	
+	
+    private static class ApiKeyGenerator {
+
+        public static String generateApiKey() {
+
+        return UUID.randomUUID().toString();
+
+        }
+
+
+    }	
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // id is auto generated
     private Long id;
-
+	
+    @NotNull
+    @Column(unique = true, nullable = false)
     private String username;
-
+	
+    @Column(nullable = false)
+    @NotNull
     private String password;
 
-    private LocalDateTime date; 
+    @Column(unique = true, nullable = false)
+    @NotNull
+    private String apiKey;
 
+    @Column(nullable = false)
+    @NotNull
+    private int remaining_api_requests;
+    
+    @Column(nullable = false)
+    @NotNull
+    private LocalDateTime date; 
+    
+    @Column(nullable = false)
+    @NotNull
     private String currentpath;
 
+    @Column(nullable = false)
+    @NotNull
     private String answer_1;
+  
+    @Column(nullable = false)
+    @NotNull
     private String answer_2; 
+
+    @Column(nullable = false)
+    @NotNull 
     private String answer_3;
-    private String answer_4; 
-    private String answer_5; 
-    private String answer_6; 
+
+    @Column(nullable = false)
+    @NotNull
+    private String answer_4;
+
+    @Column(nullable = false)
+    @NotNull 
+    private String answer_5;
+
+    @Column(nullable = false)
+    @NotNull 
+    private String answer_6;
+
+    @Column(nullable = false)
+    @NotNull 
     private String answer_7; 
 
 
@@ -44,6 +94,11 @@ public class PlayerEntity {
         this.password = password;
         this.date = LocalDateTime.now(); 
         this.currentpath = Paths.get("").toAbsolutePath().getParent().resolve("labyrinth").normalize().toString();
+	this.apiKey = ApiKeyGenerator.generateApiKey();
+
+	// will reset periodically
+	this.remaining_api_requests = 150;
+
         this.answer_1 = "";
         this.answer_2 = "";
         this.answer_3 = "";

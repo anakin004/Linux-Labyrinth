@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 const Terminal = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [history, setHistory] = useState([{ text: 'Welcome to Linux Labyrinth! Type "help" to begin...', isCommand: false }]);
   const [currentCommand, setCurrentCommand] = useState('');
   const terminalRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleCommand = async (e) => {
     if (e.key === 'Enter') {
@@ -92,11 +97,29 @@ const Terminal = () => {
                 onKeyDown={handleCommand}
                 className="flex-1 ml-2 bg-transparent outline-none text-green-500"
                 autoFocus
+		maxLength = "50"
               />
             </div>
           </div>
         </div>
+    {/* Hamburger Icon For Key */}
+    <div className="hamburger" onClick={toggleMenu}>
+        &#9776; {/* Hamburger icon */}
       </div>
+
+      {/* Dropdown Menu (hidden by default) */}
+      {isMenuOpen && (
+        <div className="dropdown-menu">
+          <label htmlFor="api-input">Enter API Key:</label>
+          <input
+            id="api-input"
+            type="text"
+            placeholder="API Key"
+          />
+        </div>
+      )}
+    </div>
+ 
     </div>
   );
   

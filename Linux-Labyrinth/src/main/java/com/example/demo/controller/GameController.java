@@ -268,6 +268,8 @@ public class GameController {
 
         if ( command.length() == 0 ) { return ""; }
         if ( !isValidInput(command) ){ return "Invalid Command"; }
+	
+	print(command);	
 
         String username = getService.getPlayerName();
         String[] params = command.split(" ");

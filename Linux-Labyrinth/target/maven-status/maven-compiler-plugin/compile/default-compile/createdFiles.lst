@@ -1,4 +1,5 @@
 com/example/demo/service/GetUserService.class
+com/example/demo/model/PlayerEntity$ApiKeyGenerator.class
 com/example/demo/config/SecurityConfig.class
 com/example/demo/controller/GameController$CommandRequest.class
 com/example/demo/service/UpdateUserService.class
