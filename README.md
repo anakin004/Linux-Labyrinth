@@ -9,7 +9,7 @@
 - **RESTful API**: The application exposes endpoints to interact with the data stored in the PostgreSQL database, allowing users to perform CRUD (Create, Read, Update, Delete) operations via HTTP requests.
 - **Docker Support**: The project can be configured to run PostgreSQL in a Docker container, making it easier to set up a local development environment without the need for manual PostgreSQL installation.
 - **UI**: An interractive web interface that makes the learning process engaging.
-
+- **Azure**: I hosted the web application on Azure using a Cloud-Based Virtual Machine (VM) to provide reliable and scalable access via GitHub. This enabled efficient deployment and streamlined access for users.
 ## Technologies Used
 - **Java 17, HTML & CSS, JavaScript**: Programming languages used for this project.
 - **Tailwind CSS, React, PostCSS**: Frontend technologies used for styling, building dynamic user interfaces, and optimizing CSS.
@@ -22,7 +22,7 @@
 
 - If you want to replicate this project and impliment it, be wary
 - Since the users are inputting shell commands, no matter how much error checking there is it will (kind of) never be 100% secure
-- Note on docker container, it is included in this project, I need to copy over game logic and some path resolving. Everything else is fully functional though, React and Spring Boot are both building and running, along with psql, you can create instances of users in the database via JPA entity automatically created by hibernate as in Spring Boot, spring.jpa.hibernate.ddl-auto is automatically set to update if its not defined, this allows Hibernate to automatically create missing tables and/or columns based on Entity classes :)
+- Note on docker container, it is included in this project, I need to copy over game logic and some path resolving. Everything else is fully functional though, React and Spring Boot are both building and running, along with psql, you can create instances of users in the database via JPA entity automatically created by hibernate as in Spring Boot, spring.jpa.hibernate.ddl-auto is set to update, this allows Hibernate to automatically create missing tables and/or columns based on Entity classes :)
 
 
 ## Setup Instructions
