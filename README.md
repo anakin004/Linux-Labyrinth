@@ -6,7 +6,7 @@
 ## Features
 - **PostgreSQL Database Integration**: The application uses PostgreSQL as the database to store and retrieve application data, such as user data or any other relevant application information.
 - **Spring Boot Framework**: The project leverages Spring Boot for rapid development and deployment of the application. It provides features like automatic configuration, embedded Tomcat server, and Spring Data JPA for database access.
-- **RESTful API**: The application exposes endpoints to interact with the data stored in the PostgreSQL database, allowing users to perform CRUD (Create, Read, Update, Delete) operations via HTTP requests.
+- **RESTful API**: The application exposes endpoints to interact with the data stored in the PostgreSQL database, allowing users to perform CRUD (Create, Read, Update, Delete) operations via HTTP requests. I introduced API rate-limiting and distribution for access-control and security
 - **Docker Support**: The project can be configured to run PostgreSQL in a Docker container, making it easier to set up a local development environment without the need for manual PostgreSQL installation.
 - **UI**: An interractive web interface that makes the learning process engaging.
 - **Web-Hosting**: I hosted the web application on Azure using a Cloud-Based Virtual Machine (VM) to provide reliable and scalable access via GitHub. This enabled efficient deployment and streamlined access for users.
@@ -43,6 +43,13 @@ https://github.com/user-attachments/assets/1298929b-03f9-4b7b-b2bd-5b35caaa9427
 
 
 ![Screenshot 2024-12-09 004406](https://github.com/user-attachments/assets/ab527795-5e15-45d6-a6fc-87d07af1635b)
+
+-- Recent demo with api key integration, same game logic
+-- you simply input your api that is generated when you make one for the first time
+-- and your allowed to use the command line interface, to enfore rest-api design
+![Capture](https://github.com/user-attachments/assets/4df7420e-0253-4691-b2d5-4e502df399cc)
+
+
 
 
 
