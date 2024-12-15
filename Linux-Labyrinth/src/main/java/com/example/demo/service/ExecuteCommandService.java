@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.model.PlayerEntity;
 import com.example.demo.model.PlayerRepository;
 import com.example.demo.service.GetUserService;
-
+import com.example.demo.model.ApiEntity;
+import com.example.demo.model.ApiRepository;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,11 +26,13 @@ public class ExecuteCommandService {
 
     private final PlayerRepository playerRepository;
     private final GetUserService getService;
+    private final ApiRepository apiRepository;	
 
     @Autowired
-    public ExecuteCommandService(PlayerRepository playerRepository, GetUserService getService) {
+    public ExecuteCommandService(ApiRepository apiRepository, PlayerRepository playerRepository, GetUserService getService) {
         this.playerRepository = playerRepository;
         this.getService = getService;
+	this.apiRepository = apiRepository;
     }
 
     /*

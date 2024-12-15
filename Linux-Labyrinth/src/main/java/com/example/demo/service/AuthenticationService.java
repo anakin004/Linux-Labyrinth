@@ -25,16 +25,7 @@ public class AuthenticationService {
         this.playerRepository = playerRepository;
         this.passwordEncoder = passwordEncoder;
     }
+	
 
-
-    // auth the user by checking their password
-    public boolean authenticate(String username, String password) {
-        PlayerEntity player = playerRepository.findByUsername(username);
-        if (player != null) {
-            return passwordEncoder.matches(passwordEncoder.encode(password), player.getPassword());
-        }
-        return false;
-
-    }
 
 }

@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.demo.service.UpdateUserService;
 import com.example.demo.service.ExecuteCommandService;
 import com.example.demo.service.GetUserService;
+import com.example.demo.service.CreateUserService;
 import com.example.demo.service.LoggerService;
 import org.springframework.ui.Model;
+import com.example.demo.config.BeanConfig;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 // for shell code stuff
 import java.io.BufferedReader;
@@ -31,17 +35,21 @@ import java.util.List;
 public class GameController {
 
 
-    
+    private final PasswordEncoder passwordEncoder;    
     private final UpdateUserService updateService;
     private final ExecuteCommandService commandService;
     private final GetUserService getService;
+    private final CreateUserService createService;	
 
     @Autowired
-    public GameController(UpdateUserService updateService, ExecuteCommandService commandService, GetUserService getService) {
+    public GameController(PasswordEncoder passwordEncoder, CreateUserService createService, UpdateUserService updateService, ExecuteCommandService commandService, GetUserService getService) {
         this.updateService = updateService;
         this.commandService = commandService;
+	this.createService = createService;
         this.getService = getService;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
 
 	
@@ -51,18 +59,26 @@ public class GameController {
      // the user input will be put into a CommandRequest object 
      // we make it private static since it is associated with the class not with the class instance, and is only used in this class
      // so we can make CommandRequest objects without instances of the GameController class
-    private static class CommandRequest {
-        private String command;
+     public static class CommandRequest {
+         private String command;
+         private String apiKey;
 
-        public String getCommand() {
+         public String getCommand() {
             return command;
-        }
+         }
 
-        public void setCommand(String command) {
+         public void setCommand(String command) {
             this.command = command;
-        }
-    }
+         }
 
+         public String getApiKey() {
+            return apiKey;
+         }
+
+         public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+         }
+}
 
 
 
@@ -245,7 +261,7 @@ public class GameController {
         return res;
     }
 
-
+    
     
 
     // checks command and runs the command
@@ -265,15 +281,16 @@ public class GameController {
 
 
     */
-    public String checkAndRunCommand(String command) throws Exception{
+    public String checkAndRunCommand(String command, String apiKey) throws Exception{
 
         if ( command.length() == 0 ) { return ""; }
-	
-	String username = getService.getPlayerName();
-	LoggerService.Log(username, command, "logs.txt");
-
+	LoggerService.Log("user", command, "logs.txt");
         if ( !isValidInput(command) ){ return "Invalid Command"; }
+			
+        String username = getService.getUsernameFromApi(apiKey);
 	
+	updateService.updateApiUseage(apiKey);
+
         String[] params = command.split(" ");
         Path cwd = Paths.get("").toAbsolutePath().getParent().resolve("labyrinth").normalize();
         String playerPath = getService.getPlayerPath( username );
@@ -290,7 +307,7 @@ public class GameController {
 
         // we will need this for cat, ls, find, ...
         // we will check specifically in cd and handle seperatly
-        // but in cat, ls, find, I decided to just disable it
+        // but in cat, ls, find, I decided to just disable it     
         boolean goesBackwards = checkBackwardsCall( params );
 
 
@@ -553,7 +570,8 @@ public class GameController {
 
             // getting the command from the request body
             String command = commandReq.getCommand();
-            String ret = checkAndRunCommand(command);
+	    String apiKey = commandReq.getApiKey();
+            String ret = checkAndRunCommand(command, apiKey);
 
             return ResponseEntity.ok(jsonify(ret));
 
@@ -563,5 +581,19 @@ public class GameController {
                 .badRequest()
                 .body("Error executing command: " + e.getMessage());
         }
-    }
+    
+    
+     }
+
+    @GetMapping("/api/retrieve-key")
+    public ResponseEntity<String> getApiKey(){
+	String username = getService.getPlayerName();
+	
+	// this only creates api key if we havent already
+        String ret = createService.createApiKey(username);
+        return ResponseEntity.ok("{\"apiKey\": \"" + ret + "\"}");
+
+     }
+
+
 }

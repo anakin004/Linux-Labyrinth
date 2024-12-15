@@ -15,13 +15,15 @@ public class CreateUserService {
 
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ApiRepository apiRepository;  
+    private final GetUserService getService;	
+    private final ApiRepository apiRepository;
 
     @Autowired
-    public CreateUserService(PlayerRepository playerRepository, PasswordEncoder passwordEncoder, ApiRepository apiRepository) {
+    public CreateUserService(ApiRepository apiRepository, GetUserService getService, PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
         this.playerRepository = playerRepository;
         this.passwordEncoder = passwordEncoder;
-	this.apiRepository = apiRepository;
+        this.getService = getService;
+        this.apiRepository = apiRepository;
     }
 
     private boolean checkUserExist(String username){
@@ -41,18 +43,33 @@ public class CreateUserService {
 
         boolean success = false;
 
-        if( !checkUserExist(username) ){
+	if(username.contains(" "))
+	    success = false;
+	else if(username.matches(".*[^a-zA-Z0-9].*"))
+	    success = false;
+        else if( !checkUserExist(username) ){
             PlayerEntity player = new PlayerEntity(username, passwordEncoder.encode(password));
-            ApiEntity api = new ApiEntity();
 	    playerRepository.save(player);
-	    apiRepository.save(api);
             success = true;
         }       
         
         return success;
     }
 
+     // the only way to create api key is if your successfully logged in 
+     public String createApiKey(String username){
+          String ret = "Already Generated Api Key Sorry!";
+	
+          if( !getService.getMadeApiKeyStatus(username) ){
+	       ApiEntity ae = new ApiEntity(username);
+	       ret = ae.makeApiKey();
+               apiRepository.save(ae);
+	       playerRepository.updateMadeApiStatusForUser(username, true);
+          }
 
+	return ret;	  
+	          
+     }
 
 
 

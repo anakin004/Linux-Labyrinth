@@ -62,6 +62,12 @@ public interface PlayerRepository extends JpaRepository<PlayerEntity, Long> {
     @Query("UPDATE PlayerEntity p SET p.answer_7 = :value WHERE p.username = :username")
     int updateAnswer7ForUser(@Param("username") String username, @Param("value") String value);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE PlayerEntity p SET p.made_key = :value WHERE p.username = :username")
+    int updateMadeApiStatusForUser(@Param("username") String username, @Param("value") boolean value);
+
+	
 }
 
 

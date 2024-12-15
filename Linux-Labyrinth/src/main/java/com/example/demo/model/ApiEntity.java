@@ -22,9 +22,7 @@ public class ApiEntity{
      private static class ApiKeyGenerator {
 
         public static String generateApiKey() {
-	    BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-            return bc.encode(UUID.randomUUID().toString());
-
+            return UUID.randomUUID().toString();
         }
      }
     
@@ -36,15 +34,37 @@ public class ApiEntity{
     @Column(nullable = false)
     @NotNull
     private int remaining_uses;
+	
+    @Column(nullable = false, unique = true)
+    @NotNull
+    private String username;
 
     @Column(unique = true, nullable = false)
     @NotNull
     private String apiKey;
+    
+    private ApiEntity(){
+    }	
 
-    public ApiEntity(){
+    public ApiEntity(String username){
         remaining_uses = 100;
-        apiKey = ApiKeyGenerator.generateApiKey();
+        apiKey = ""; // empty intially
+        this.username = username;
     }
+    
+    public String makeApiKey(){
+	apiKey = ApiKeyGenerator.generateApiKey();
+	return apiKey; // for user to save
+    }
+	
+    public String getName(){
+	return username;
+    }	
+	
+    public int getUses(){
+	return remaining_uses;	
+    }
+
 
 }
 

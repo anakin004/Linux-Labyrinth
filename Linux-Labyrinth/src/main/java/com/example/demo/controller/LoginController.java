@@ -47,8 +47,7 @@ public class LoginController{
         }
 
         CUS.create(username,password);
-
-        return "redirect:/login"; 
+	return "redirect:login";
     }
 
 }

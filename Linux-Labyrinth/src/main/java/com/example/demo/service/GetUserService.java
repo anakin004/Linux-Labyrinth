@@ -8,17 +8,21 @@ import org.springframework.stereotype.Service;
 import com.example.demo.model.PlayerEntity;
 import com.example.demo.model.PlayerRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
-
+import com.example.demo.model.ApiRepository;
+import com.example.demo.model.ApiEntity;
 
 
 @Service
 public class GetUserService {
-
+    
+    private final AuthenticationService authService;
     private final PlayerRepository playerRepository;
-
+    private final ApiRepository apiRepository;
     @Autowired
-    public GetUserService(PlayerRepository playerRepository) {
+    public GetUserService(AuthenticationService authService, ApiRepository apiRepository, PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
+        this.apiRepository = apiRepository;
+        this.authService = authService;
     }
 
 
@@ -30,6 +34,21 @@ public class GetUserService {
         return SecurityContextHolder.getContext()
                     .getAuthentication()
                     .getName();
+    }
+
+    public boolean getMadeApiKeyStatus(String username){
+	PlayerEntity p = playerRepository.findByUsername(username); 
+        return p.getMadeApi();
+
+    }
+
+    public String getUsernameFromApi(String apiKey) throws Exception{
+	ApiEntity ae = apiRepository.findByApiKey(apiKey);
+	if(ae == null)
+	     throw new Exception("Invalid Api Key");
+	if(ae.getUses() == 0)
+	     throw new Exception("No more API-Uses Left");
+	return ae.getName();
     }
 
     public String getPlayerAnswers(String username){

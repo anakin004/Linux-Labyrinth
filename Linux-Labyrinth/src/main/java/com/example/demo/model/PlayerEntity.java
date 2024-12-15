@@ -63,7 +63,9 @@ public class PlayerEntity {
     @NotNull 
     private String answer_7; 
 
-
+    // for api key
+    @Column(nullable = false)
+    private boolean made_key;
 
     private PlayerEntity(){
     }
@@ -80,8 +82,12 @@ public class PlayerEntity {
         this.answer_5 = "";
         this.answer_6 = "";
         this.answer_7 = "";
+        this.made_key = false;
     }
-
+   
+    public boolean getMadeApi(){
+        return made_key;
+    }
 
     public String getPassword(){
         return password;

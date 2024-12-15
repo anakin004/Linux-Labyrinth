@@ -7,19 +7,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.model.PlayerEntity;
 import com.example.demo.model.PlayerRepository;
+import com.example.demo.model.ApiRepository;
+import com.example.demo.model.ApiEntity;
 
 
 @Service
 public class UpdateUserService {
 
     private final PlayerRepository playerRepository;
-
+    private final ApiRepository apiRepository;
 
     @Autowired
-    public UpdateUserService(PlayerRepository playerRepository) {
+    public UpdateUserService(ApiRepository apiRepository, PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
+	this.apiRepository = apiRepository;
     }
 
+    public void updateApiUseage(String apiKey){
+	apiRepository.reduceRemainingCountByApiKey(apiKey);	
+    }
 
     public boolean updateColumn(String name, String column, String value){
 
@@ -69,6 +75,6 @@ public class UpdateUserService {
 
     }
 
-
+	
 
 }
