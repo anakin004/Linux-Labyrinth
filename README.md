@@ -37,7 +37,7 @@ cd Linux-Labyrinth
 
 
 ## Demos 
-- ** If you don't want spoilers don't watch demo!
+- ** If you don't want spoilers don't watch demo <<
 
 https://github.com/user-attachments/assets/1298929b-03f9-4b7b-b2bd-5b35caaa9427
 
