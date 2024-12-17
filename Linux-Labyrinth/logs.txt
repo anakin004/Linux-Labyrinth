@@ -1,6 +1,5 @@
 anakin: ls at, 06:45:29.692878
 anakin: cat at, 06:45:32.702532
-anakin: bruh at, 06:45:34.549087
 anakin: ls at, 12:49:36.190790
 anakin: tree at, 12:49:38.774283
 user: ls at, 02:48:43.411728
@@ -8,7 +7,6 @@ user: ls at, 02:48:47.254002
 user: help at, 02:48:50.782043
 user: ls at, 02:53:07.591845
 user: ls at, 02:59:28.385514
-user: d27e478d-d837-4958-b8ab-bdeca9527acf at, 03:06:13.688005
 user: ls at, 03:06:15.415067
 user: ls at, 03:06:39.151001
 user: ls at, 03:28:33.620905
@@ -16,8 +14,6 @@ user: cat at, 03:28:35.750533
 user: ls at, 03:28:37.542882
 user: cat clue1.txt at, 03:28:41.029753
 user: ls at, 03:38:02.879835
-user: 7a1ec649-6446-4fb4-9fee-51ac77702f59 at, 03:38:18.791358
-user: 7a1ec649-6446-4fb4-9fee-51ac77702f59 at, 03:38:19.597842
 user: ls at, 03:38:22.637090
 user: ls at, 03:38:22.878171
 user: ls at, 03:38:23.119285
@@ -30,7 +26,6 @@ user: ls at, 03:38:24.447897
 user: ls at, 03:38:24.663069
 user: ls at, 03:38:24.910837
 user: ls at, 03:38:25.158841
-user: lsclear at, 03:38:26.142620
 user: ls at, 03:38:27.166346
 user: ls at, 03:38:27.373516
 user: ls at, 03:38:27.598958
