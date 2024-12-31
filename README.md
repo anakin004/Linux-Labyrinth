@@ -18,7 +18,7 @@
 - **Maven**: The build tool used for managing dependencies, compiling, testing, and running the application.
 - **Docker**: Used optionally for setting up PostgreSQL in a containerized environment, making the setup process easier.
 - **Azure**: A cloud computing platform that offers a variety of services to help users build, run, and manage applications
-
+- **Jenkins**: an open-source automation server that helps automate software development tasks (Used for CI/CD)
 ## Important Notes
 
 - If you want to replicate this project and impliment it, be wary
