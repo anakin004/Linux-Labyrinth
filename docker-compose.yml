@@ -32,6 +32,7 @@ services:
       - "8080:8080"
     depends_on:
       - db
+      - frontend
     networks:
       - app-network
 
@@ -43,8 +44,6 @@ services:
     container_name: react-frontend
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
     networks:
       - app-network
     
